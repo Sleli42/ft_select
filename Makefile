@@ -6,7 +6,7 @@
 #    By: lubaujar <lubaujar@student.42.fr>          +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2015/06/24 00:57:49 by lubaujar          #+#    #+#              #
-#    Updated: 2015/06/24 00:59:05 by lubaujar         ###   ########.fr        #
+#    Updated: 2015/07/15 03:58:21 by lubaujar         ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -15,11 +15,12 @@ RM = rm -rf
 FLAGS = -g -Wall -Wextra -Werror
 LDFLAGS = -I./include/ -I./libft/include/
 
-SRC = main.c
+SRC = main.c \
+		init.c
 
 OBJ = $(SRC:.c=.o)
 	SRCDIR	= ./srcs/
-	OBJDIR	= ./obj/
+	OBJDIR	= ./objs/
 	INCDIR	= ./include/
 	SRCS	= $(addprefix $(SRCDIR), $(SRC))
 	OBJS	= $(addprefix $(OBJDIR), $(OBJ))
@@ -28,7 +29,7 @@ OBJ = $(SRC:.c=.o)
 all: $(NAME)
 
 $(NAME): $(OBJS) $(INCS)
-	@gcc $(FLAGS) -o $@ $^ -L./libft/ -lft
+	@gcc $(FLAGS) -o $@ $^ -L./libft/ -lft -ltermcap
 	@echo "\t \033[32m[All's Fine]\033[0m"
 
 $(OBJS): $(SRCS)
