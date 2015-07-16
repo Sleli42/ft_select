@@ -6,18 +6,23 @@
 /*   By: lubaujar <lubaujar@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2015/07/15 03:15:08 by lubaujar          #+#    #+#             */
-/*   Updated: 2015/07/15 05:46:20 by lubaujar         ###   ########.fr       */
+/*   Updated: 2015/07/16 04:46:33 by lubaujar         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "ft_select.h"
 
-t_all	*init_all(void)
+t_all	*init_all(int ac, char **av)
 {
 	t_all	*all;
 
-	all = (t_all *)malloc(sizeof(t_all));
-	init_termios(all);
+	if (!(all = (t_all *)malloc(sizeof(t_all))))
+		return (NULL);
+	init_termios(all->default_term, "DEFAULT");
+	init_termios(all->term, "NORMAL");
+	if (all->term)
+		all->lst = create_circular_list(ac, av);
+	return (all);
 }
 
 int		init_tty(void)
@@ -38,13 +43,25 @@ int		init_tty(void)
 }
 
 
-void	init_termios(t_all *all)
+void	init_termios(struct termios *term, char *s)
 {
 	char	*term_name;
 
+	if (!(term = (struct termios *)malloc(sizeof(struct termios))))
+		return ;
 	if ((term_name = getenv("TERM")) == NULL)
-		return ;
-	if (tgetent(NULL, &term_name) == -1)
-		return ;
-	all->default_term =
+		termError("getenv");
+	if (tgetent(NULL, term_name) == -1)
+		termError("tgetent");
+	if (tcgetattr(0, term) == -1)
+		termError("tcgetattr");
+	if (ft_strcmp(s, "DEFAULT") != 0)
+	{
+		term->c_lflag &= ~(ICANON); // canonique mode
+		term->c_lflag &= ~(ECHO); // plus d'entree standard
+		term->c_cc[VMIN] = 0;
+		term->c_cc[VTIME] = 0; // refresh
+		if (tcsetattr(0, TCSADRAIN, term) == -1)
+			termError("tcsetattr");
+	}
 }
