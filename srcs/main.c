@@ -6,7 +6,7 @@
 /*   By: lubaujar <lubaujar@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2015/06/24 00:59:50 by lubaujar          #+#    #+#             */
-/*   Updated: 2015/07/16 05:06:20 by lubaujar         ###   ########.fr       */
+/*   Updated: 2015/07/22 23:47:36 by lubaujar         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -21,8 +21,9 @@ int		main(int ac, char **av)
 	if (ac > 1)
 	{
 		all = init_all(ac, av);
+		// display_screen(all);
 		print_list(all->lst);
-		del_circular_list(all->lst);
+	//	del_circular_list(all->lst);
 	}
 	return (0);
 }

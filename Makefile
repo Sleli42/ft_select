@@ -6,7 +6,7 @@
 #    By: lubaujar <lubaujar@student.42.fr>          +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2015/06/24 00:57:49 by lubaujar          #+#    #+#              #
-#    Updated: 2015/07/16 04:26:00 by lubaujar         ###   ########.fr        #
+#    Updated: 2015/07/17 21:51:28 by lubaujar         ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -18,7 +18,8 @@ LDFLAGS = -I./include/ -I./libft/include/
 SRC = main.c \
 		init.c \
 		error.c \
-		list.c
+		list.c \
+		display.c
 
 OBJ = $(SRC:.c=.o)
 	SRCDIR	= ./srcs/

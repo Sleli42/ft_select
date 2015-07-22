@@ -6,7 +6,7 @@
 /*   By: lubaujar <lubaujar@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2015/06/24 01:01:15 by lubaujar          #+#    #+#             */
-/*   Updated: 2015/07/16 04:46:53 by lubaujar         ###   ########.fr       */
+/*   Updated: 2015/07/22 23:44:33 by lubaujar         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -57,8 +57,15 @@ void			termError(char *err);
 /*
 ** list.c
 */
+// t_circular		*root_init(void);
 t_circular		*create_circular_list(int ac, char **av);
 t_circular		*lst_create_elem(char *s);
-void			lst_add_elem_back(t_circular **alst, t_circular *new_elem);
+void			lst_add_elem_back(t_circular **lst, t_circular *new_elem);
+void			del_circular_list(t_circular *lst);
+/*
+** display.c
+*/
+int				my_outc(int c);
+void			display_screen(t_all *all);
 
 #endif
