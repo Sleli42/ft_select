@@ -6,7 +6,7 @@
 /*   By: lubaujar <lubaujar@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2015/06/24 00:59:50 by lubaujar          #+#    #+#             */
-/*   Updated: 2015/07/22 23:47:36 by lubaujar         ###   ########.fr       */
+/*   Updated: 2015/07/24 00:12:33 by lubaujar         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -22,7 +22,7 @@ int		main(int ac, char **av)
 	{
 		all = init_all(ac, av);
 		// display_screen(all);
-		print_list(all->lst);
+		print_list(all->lst, ac);
 	//	del_circular_list(all->lst);
 	}
 	return (0);
@@ -42,45 +42,3 @@ void	print_list(t_circular *lst)
 		}
 	}
 }
-
-// int		ft_outc(int c)
-// {
-// 	ft_putchar(c);
-// 	return(c);
-// }
-
-// int		main(int ac, char **av, char **env)
-// {
-// 	struct termios	term;
-// 	char			*buff;
-// 	char			*term_name;
-// 	char			*res;
-// 	// int				fd;
-
-// 	(void)ac;
-// 	(void)av;
-// 	(void)env;
-// 	// fd = init_tty();
-// 	buff = (char *)malloc(sizeof(char *));
-// 	if ((term_name = getenv("TERM")) == NULL)
-// 		return (-1);
-// 	printf("My term: %s\n", term_name);
-// 	if (tgetent(buff, term_name) == -1)
-// 	{
-// 		printf("terminfo database could not be found\n");
-// 		return (0);
-// 	}
-// 	if (tcgetattr(0, &term) == -1)
-// 		return (-1);
-// 	if ((res = tgetstr("cl", NULL)) == NULL)
-// 		return (-1);
-// 	tputs(res, 0, ft_outc);
-// 	// if (tcgetattr(fd, &term) == -1)
-// 	// 	printf("error tcgetattr\n");
-// 	// else
-// 	// {
-// 	// 	if (term.c_lflag & ICANON)
-// 	// 		printf("term is on canonical mode\n");
-// 	// }
-// 	return (0);
-// }

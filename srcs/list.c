@@ -6,26 +6,11 @@
 /*   By: lubaujar <lubaujar@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2015/07/16 04:08:55 by lubaujar          #+#    #+#             */
-/*   Updated: 2015/07/22 23:59:02 by lubaujar         ###   ########.fr       */
+/*   Updated: 2015/07/24 00:12:59 by lubaujar         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "ft_select.h"
-
-// t_circular	*root_init(void)
-// {
-// 	t_circular	*root;
-
-// 	if (!(root = (t_circular *)malloc(sizeof(t_circular))))
-// 		return (NULL);
-// 	root->arg = NULL;
-// 	root->onArg = 0;
-// 	root->select = 0;
-// 	root->lenArg = 0;
-// 	root->prev = root;
-// 	root->next = root;
-// 	return (root);
-// }
 
 t_circular	*create_circular_list(int ac, char **av)
 {
@@ -38,22 +23,6 @@ t_circular	*create_circular_list(int ac, char **av)
 		lst_add_elem_back(&lst, lst_create_elem(av[i])), i++;
 	return (lst);
 }
-
-// void	lst_add_elem_back(t_circular *root, char *s)
-// {
-// 	t_circular	*new;
-
-// 	if (!(new = (t_circular *)malloc(sizeof(t_circular))))
-// 		return ;
-// 	new->arg = ft_strdup(s);
-// 	new->onArg = 0;
-// 	new->select = 0;
-// 	new->lenArg = ft_strlen(s);
-// 	new->prev = root->prev;
-// 	new->next = root;
-// 	root->next->prev = new;
-// 	root->next = new;
-//}
 
 t_circular		*lst_create_elem(char *s)
 {
@@ -68,34 +37,14 @@ t_circular		*lst_create_elem(char *s)
 	new->onArg = 0;
 	new->select = 0;
 	new->lenArg = ft_strlen(s);
-	new->next = NULL;
-	new->prev = NULL;
+	new->next = new;
+	new->prev = new;
 	return (new);
-}
-
-size_t		lst_size(t_circular *lst)
-{
-	t_circular *tmp;
-	size_t	i;
-
-	i = 0;
-	tmp = lst;
-	if (tmp)
-	{
-		while (tmp)
-		{
-			tmp = tmp->next, i++;
-			if (tmp == lst)
-				break ;
-		}
-	}
-	return (i);
 }
 
 void		lst_add_elem_back(t_circular **alst, t_circular *new_elem)
 {
 	t_circular	*curr;
-	int			len;
 
 	curr = *alst;
 	if (new_elem != NULL)
@@ -104,13 +53,12 @@ void		lst_add_elem_back(t_circular **alst, t_circular *new_elem)
 			*alst = new_elem;
 		else
 		{
-			len = (int)lst_size(curr);
-			curr->prev = new_elem;
-			new_elem->next = curr;
-			while (len-- > 0)
+			while (curr->next != *alst)
 				curr = curr->next;
 			curr->next = new_elem;
 			new_elem->prev = curr;
+			new_elem->next = *alst;
+			(*alst)->prev = new_elem;
 		}
 	}
 	else
