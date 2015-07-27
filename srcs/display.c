@@ -6,7 +6,7 @@
 /*   By: lubaujar <lubaujar@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2015/07/17 21:39:43 by lubaujar          #+#    #+#             */
-/*   Updated: 2015/07/22 23:09:48 by lubaujar         ###   ########.fr       */
+/*   Updated: 2015/07/28 01:27:57 by lubaujar         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -27,28 +27,33 @@ void	tputs_termcap(char *tc)
 	tputs(res, 0, lu_putchar);
 }
 
-void	display_screen(t_all *all)
+void	display_screen(t_circular *lst)
 {
-	t_circular	*tmp;
+	t_circular	*nav;
 
-	tmp = all->lst;
-	tputs_termcap("ho");
-	tputs_termcap("cm");
-	while (tmp)
+	nav = lst;
+	// ft_catch_sig();
+	while (nav->next != lst)
 	{
-		ft_putstr(tmp->arg), write(1, "\n", 1);
-		tmp = tmp->next;
+		// display_arg(nav);
+		ft_putendl(nav->arg);
+		nav = nav->next;
 	}
 }
 
+// void	display_arg(t_circular *elem)
+// {
+// 	if (elem->onArg == 1)
+// }
 
 /*			MEMO */
 /*
+	cl: clear
 	ho: Remettre le curseur à la positon de début
 	cm: Déplacer le curseur à la ligne %1, colonne %2 (sur l'écran)
 	hd: Déplacer le curseur d'une ligne vers le bas
 	kr: Touche de déplacement du curseur vers la droite
-
+	vi: Curseur invisible
 
 	me: Fin de tous les modes tels que so, us, mb, md et mr
 */
