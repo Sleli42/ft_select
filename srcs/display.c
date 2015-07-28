@@ -6,7 +6,7 @@
 /*   By: lubaujar <lubaujar@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2015/07/17 21:39:43 by lubaujar          #+#    #+#             */
-/*   Updated: 2015/07/28 04:15:54 by lubaujar         ###   ########.fr       */
+/*   Updated: 2015/07/28 19:53:57 by lubaujar         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -35,10 +35,14 @@ void	display_list(t_circular **alst)
 	// ft_catch_sig();
 	while (nav)
 	{
+		if (nav->select == 1)
+			tputs_termcap("mr");
+		else
+			tputs_termcap("me");
 		if (nav->onArg == 1)
 			tputs_termcap("us");
 		else
-			tputs_termcap("me");
+			tputs_termcap("ue");
 		// display_arg(nav);
 		ft_putendl(nav->arg);
 		nav = nav->next;
@@ -54,6 +58,10 @@ void	display_list(t_circular **alst)
 
 /*			MEMO */
 /*
+	mr: Début de mode inverse
+	so: Début de mode standout
+	se: Fin de monde standout
+	us: souligner
 	cl: clear
 	ho: Remettre le curseur à la positon de début
 	cm: Déplacer le curseur à la ligne %1, colonne %2 (sur l'écran)

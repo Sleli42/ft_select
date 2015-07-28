@@ -6,7 +6,7 @@
 /*   By: lubaujar <lubaujar@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2015/06/24 01:01:15 by lubaujar          #+#    #+#             */
-/*   Updated: 2015/07/28 04:11:19 by lubaujar         ###   ########.fr       */
+/*   Updated: 2015/07/28 20:18:24 by lubaujar         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -27,6 +27,7 @@
 # define K_DOWN		(buff[0] == 27 && buff[1] == 91 && buff[2] == 66)
 # define K_RIGHT	(buff[0] == 27 && buff[1] == 91 && buff[2] == 67)
 # define K_LEFT		(buff[0] == 27 && buff[1] == 91 && buff[2] == 68)
+# define K_SPACE	(buff[0] == 32 && !buff[1] && !buff[2])
 
 typedef struct termios t_termios;
 
@@ -43,6 +44,7 @@ typedef struct		s_circular
 	int					onArg;
 	int					select;
 	int					lenArg;
+	size_t				index;
 	struct s_circular	*next;
 	struct s_circular	*prev;
 }					t_circular;
@@ -50,8 +52,8 @@ typedef struct		s_circular
 void	print_list(t_circular *lst);
 void	key_hook_hook(void);
 
-void	main_loop(t_all *all);
-char	*key_hook(void);
+void	loop(t_all *all);
+int		key_hook(t_circular *lst);
 void	reset_term(t_termios *default_term);
 /*
 ** init.c
@@ -67,9 +69,10 @@ void				termError(char *err);
 ** list.c
 */
 t_circular			*create_circular_list(int ac, char **av);
-t_circular			*lst_create_elem(char *s, int onArg);
+t_circular			*lst_create_elem(char *s);
 void				lst_add_elem_back(t_circular **lst, t_circular *new_elem);
 void				del_circular_list(t_circular *lst);
+size_t				list_size(t_circular *lst);
 /*
 ** display.c
 */
@@ -84,5 +87,7 @@ void				ft_func(int sig);
 /*
 ** moves.c
 */
-void	move_cursor_updown(char *key, t_circular **lst);
+void				move_cursor_up(t_circular **lst);
+void				move_cursor_down(t_circular **lst);
+void				select_cursor(t_circular **lst);
 #endif
