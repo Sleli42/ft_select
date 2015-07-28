@@ -6,7 +6,7 @@
 /*   By: lubaujar <lubaujar@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2015/07/16 04:08:55 by lubaujar          #+#    #+#             */
-/*   Updated: 2015/07/24 00:12:59 by lubaujar         ###   ########.fr       */
+/*   Updated: 2015/07/28 04:10:24 by lubaujar         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -16,25 +16,30 @@ t_circular	*create_circular_list(int ac, char **av)
 {
 	t_circular	*lst;
 	int			i;
+	int			first;
 
 	lst = NULL;
 	i = 1;
+	first = 0;
 	while (i < ac)
-		lst_add_elem_back(&lst, lst_create_elem(av[i])), i++;
+	{
+		if (first == 0)
+			lst_add_elem_back(&lst, lst_create_elem(av[i], 1)), i++;
+		else
+			lst_add_elem_back(&lst, lst_create_elem(av[i], 0)), i++;
+		first++;
+	}
 	return (lst);
 }
 
-t_circular		*lst_create_elem(char *s)
+t_circular		*lst_create_elem(char *s, int onArg)
 {
 	t_circular		*new;
 
 	if (!(new = (t_circular *)malloc(sizeof(t_circular))))
 		return (NULL);
-	if (s == NULL)
-		new->arg = NULL;
-	else
-		new->arg = ft_strdup(s);
-	new->onArg = 0;
+	new->arg = (s == NULL) ? NULL : ft_strdup(s);
+	new->onArg = onArg;
 	new->select = 0;
 	new->lenArg = ft_strlen(s);
 	new->next = new;

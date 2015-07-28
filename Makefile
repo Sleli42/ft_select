@@ -6,7 +6,7 @@
 #    By: lubaujar <lubaujar@student.42.fr>          +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2015/06/24 00:57:49 by lubaujar          #+#    #+#              #
-#    Updated: 2015/07/27 22:32:29 by lubaujar         ###   ########.fr        #
+#    Updated: 2015/07/28 03:53:04 by lubaujar         ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -20,7 +20,8 @@ SRC = main.c \
 		error.c \
 		list.c \
 		display.c \
-		signal.c
+		signal.c \
+		moves.c
 
 OBJ = $(SRC:.c=.o)
 	SRCDIR	= ./srcs/

@@ -6,7 +6,7 @@
 /*   By: lubaujar <lubaujar@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2015/07/17 21:39:43 by lubaujar          #+#    #+#             */
-/*   Updated: 2015/07/28 01:27:57 by lubaujar         ###   ########.fr       */
+/*   Updated: 2015/07/28 04:15:54 by lubaujar         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -27,17 +27,23 @@ void	tputs_termcap(char *tc)
 	tputs(res, 0, lu_putchar);
 }
 
-void	display_screen(t_circular *lst)
+void	display_list(t_circular **alst)
 {
 	t_circular	*nav;
 
-	nav = lst;
+	nav = *alst;
 	// ft_catch_sig();
-	while (nav->next != lst)
+	while (nav)
 	{
+		if (nav->onArg == 1)
+			tputs_termcap("us");
+		else
+			tputs_termcap("me");
 		// display_arg(nav);
 		ft_putendl(nav->arg);
 		nav = nav->next;
+		if (nav->next == *alst)
+			return ;
 	}
 }
 

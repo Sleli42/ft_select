@@ -6,7 +6,7 @@
 /*   By: lubaujar <lubaujar@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2015/06/24 01:01:15 by lubaujar          #+#    #+#             */
-/*   Updated: 2015/07/28 01:17:17 by lubaujar         ###   ########.fr       */
+/*   Updated: 2015/07/28 04:11:19 by lubaujar         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -51,7 +51,8 @@ void	print_list(t_circular *lst);
 void	key_hook_hook(void);
 
 void	main_loop(t_all *all);
-int	key_hook(void);
+char	*key_hook(void);
+void	reset_term(t_termios *default_term);
 /*
 ** init.c
 */
@@ -66,7 +67,7 @@ void				termError(char *err);
 ** list.c
 */
 t_circular			*create_circular_list(int ac, char **av);
-t_circular			*lst_create_elem(char *s);
+t_circular			*lst_create_elem(char *s, int onArg);
 void				lst_add_elem_back(t_circular **lst, t_circular *new_elem);
 void				del_circular_list(t_circular *lst);
 /*
@@ -74,10 +75,14 @@ void				del_circular_list(t_circular *lst);
 */
 int					my_outc(int c);
 void				tputs_termcap(char *tc);
-void				display_screen(t_circular *lst);
+void				display_list(t_circular **alst);
 /*
 ** signal.c
 */
 void				ft_catch_sig(void);
 void				ft_func(int sig);
+/*
+** moves.c
+*/
+void	move_cursor_updown(char *key, t_circular **lst);
 #endif

@@ -6,34 +6,45 @@
 /*   By: lubaujar <lubaujar@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2015/06/24 00:59:50 by lubaujar          #+#    #+#             */
-/*   Updated: 2015/07/28 01:17:47 by lubaujar         ###   ########.fr       */
+/*   Updated: 2015/07/28 04:18:59 by lubaujar         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "ft_select.h"
 
-int	key_hook(void)
+char		*key_hook(void)
 {
 	char	buff[3] = {0};
 
+	read(1, buff, 3);
 	if (K_UP)
-	{
-		printf("k_UP ok\n");
-		return (1);
-	}
-	if (*buff == 4)
-		return (-1);
-	return (0);
+		return ("K_UP");
+	if (K_DOWN)
+		return ("K_DOWN");
+	return (NULL);
 }
 
 void	main_loop(t_all *all)
 {
+	char	*key;
+
 	tputs_termcap("cl");
+	tputs_termcap("vi");
 	tputs_termcap("ho");
+	// while (1091111096051)
+	// {
+	display_list(&all->lst);
 	while (1091111096051)
 	{
-		tputs_termcap("vi");
-		display_screen(all->lst);
+		key = key_hook();
+		if (key != NULL)
+		{
+			move_cursor_updown(key, &all->lst);
+			tputs_termcap("cl");
+			display_list(&all->lst);
+			/* move
+			 cursor */
+		}
 		/* condition d'arret */
 	}
 }
@@ -51,7 +62,17 @@ int		main(int ac, char **av)
 		// print_list(all->lst);
 	//	del_circular_list(all->lst);
 	}
+	reset_term(all->default_term);
 	return (0);
+}
+
+void	reset_term(t_termios *default_term)
+{
+	if (tcgetattr(0, default_term) == -1)
+   		return ;
+	default_term->c_lflag = (ICANON | ECHO);
+	if (tcsetattr(0, 0, default_term) == -1)
+   		return ;
 }
 
 /* memo key
