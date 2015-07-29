@@ -6,7 +6,7 @@
 /*   By: lubaujar <lubaujar@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2015/07/17 21:39:43 by lubaujar          #+#    #+#             */
-/*   Updated: 2015/07/28 19:53:57 by lubaujar         ###   ########.fr       */
+/*   Updated: 2015/07/29 00:44:13 by lubaujar         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -33,7 +33,7 @@ void	display_list(t_circular **alst)
 
 	nav = *alst;
 	// ft_catch_sig();
-	while (nav)
+	while (nav->next != *alst)
 	{
 		if (nav->select == 1)
 			tputs_termcap("mr");
@@ -46,9 +46,10 @@ void	display_list(t_circular **alst)
 		// display_arg(nav);
 		ft_putendl(nav->arg);
 		nav = nav->next;
-		if (nav->next == *alst)
-			return ;
+		// if (nav->next == *alst)
+		// 	return ;
 	}
+	return ;
 }
 
 // void	display_arg(t_circular *elem)
@@ -58,6 +59,7 @@ void	display_list(t_circular **alst)
 
 /*			MEMO */
 /*
+	ve: curseur mode visible
 	mr: Début de mode inverse
 	so: Début de mode standout
 	se: Fin de monde standout

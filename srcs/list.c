@@ -6,7 +6,7 @@
 /*   By: lubaujar <lubaujar@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2015/07/16 04:08:55 by lubaujar          #+#    #+#             */
-/*   Updated: 2015/07/28 19:45:29 by lubaujar         ###   ########.fr       */
+/*   Updated: 2015/07/29 02:25:28 by lubaujar         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -79,20 +79,60 @@ size_t	list_size(t_circular *lst)
 	return (ret);
 }
 
-void	del_circular_list(t_circular *lst)
+void	list_del_one(t_circular *elem)
+{
+	elem->prev->next = elem->next;
+	elem->next->prev = elem->prev;
+	free(elem);
+}
+
+int		delete_elem(t_circular **lst)
+{
+	t_circular	*tmp;
+
+	tmp = *lst;
+	if (list_size(*lst) == 1)
+	{
+		free(*lst);
+		return (-1);
+	}
+	while (tmp)
+	{
+		if (tmp->onArg == 1)
+		{
+			if (tmp == *lst)
+			{
+				(*lst)->prev->next = (*lst)->next;
+				(*lst)->next->prev = (*lst)->prev;
+				free(*lst);
+				return (1);
+			}
+			else
+				list_del_one(tmp);
+			tmp->next->onArg = 1;
+			return (1);
+		}
+		if (tmp->next == *lst)
+			break ;
+		tmp = tmp->next;
+	}
+	return (0);
+}
+
+void	del_circular_list(t_circular **lst)
 {
 	t_circular	*nextElem;
 	t_circular	*tmp;
 
-	tmp = lst;
+	tmp = *lst;
 	nextElem = NULL;
 	if (tmp)
 	{
-		while (tmp)
+		while (tmp->next != *lst)
 		{
 			nextElem = tmp->next;
 			if (tmp->arg)
-				free(tmp->arg);
+				ft_strdel(&tmp->arg);
 			if (tmp)
 				free(tmp);
 			tmp = nextElem;

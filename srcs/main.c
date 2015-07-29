@@ -6,7 +6,7 @@
 /*   By: lubaujar <lubaujar@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2015/06/24 00:59:50 by lubaujar          #+#    #+#             */
-/*   Updated: 2015/07/28 20:24:52 by lubaujar         ###   ########.fr       */
+/*   Updated: 2015/07/29 02:15:36 by lubaujar         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -18,38 +18,38 @@ int		key_hook(t_circular *lst)
 
 	read(0, buff, 3);
 	if (K_UP)
-	{
-		move_cursor_up(&lst);
-		return (1);
-	}
+		return (move_cursor_up(&lst));
 	if (K_DOWN)
-	{
-		move_cursor_down(&lst);
-		return (1);
-	}
+		return (move_cursor_down(&lst));
 	if (K_SPACE)
-	{
-		select_cursor(&lst);
-		return (1);
-	}
-	if (!buff)
+		return (select_cursor(&lst));
+	if (K_BACKSPACE || K_DELETE)
+		return (delete_elem(&lst));
+	if ((buff[0] == 4 && !buff[1] && !buff[2]) || K_ECHAP)
 		return (-1);
 	return (0);
 }
 
 void	loop(t_all *all)
 {
+	int			ret;
+
 	tputs_termcap("cl");
 	tputs_termcap("vi");
-	tputs_termcap("ho");
+	// tputs_termcap("ho");
 	display_list(&all->lst);
 	while (1091111096051)
 	{
-		if (key_hook(all->lst) == 1)
+		if (list_size(all->lst) == 0)
+			return ;
+		ret = key_hook(all->lst);
+		if (ret == 1)
 		{
 			tputs_termcap("cl");
 			display_list(&all->lst);
 		}
+		else if (ret == -1)
+			return ;
 	}
 }
 
@@ -62,17 +62,18 @@ int		main(int ac, char **av)
 	{
 		all = init_all(ac, av);
 		loop(all);
-	//	del_circular_list(all->lst);
+		if (all->lst)
+			del_circular_list(&all->lst);
+		reset_term(all->default_term);
 	}
-	reset_term(all->default_term);
 	return (0);
 }
 
-void	reset_term(t_termios *default_term)
+void	reset_term(t_termios default_term)
 {
-	if (tcgetattr(0, default_term) == -1)
-   		return ;
-	default_term->c_lflag = (ICANON | ECHO);
-	if (tcsetattr(0, 0, default_term) == -1)
-   		return ;
+	tputs_termcap("ve");
+	if (tcgetattr(0, &default_term) == -1)
+		termError("tcgetattr[reset]");
+	if (tcsetattr(0, 0, &default_term) == -1)
+		termError("tcsetattr[reset]");
 }

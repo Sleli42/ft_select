@@ -6,7 +6,7 @@
 /*   By: lubaujar <lubaujar@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2015/07/15 03:15:08 by lubaujar          #+#    #+#             */
-/*   Updated: 2015/07/27 22:30:51 by lubaujar         ###   ########.fr       */
+/*   Updated: 2015/07/29 00:37:58 by lubaujar         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -18,10 +18,8 @@ t_all	*init_all(int ac, char **av)
 
 	if (!(all = (t_all *)malloc(sizeof(t_all))))
 		return (NULL);
-	init_termios(all->default_term, "DEFAULT");
-	init_termios(all->term, "NORMAL");
-	if (all->term)
-		all->lst = create_circular_list(ac, av);
+	init_termios(all->term);
+	all->lst = create_circular_list(ac, av);
 	return (all);
 }
 
@@ -43,25 +41,20 @@ int		init_tty(void)
 }
 
 
-void	init_termios(struct termios *term, char *s)
+void	init_termios(struct termios term)
 {
 	char	*term_name;
 
-	if (!(term = (struct termios *)malloc(sizeof(struct termios))))
-		return ;
 	if ((term_name = getenv("TERM")) == NULL)
 		termError("getenv");
 	if (tgetent(NULL, term_name) == -1)
 		termError("tgetent");
-	if (tcgetattr(0, term) == -1)
-		termError("tcgetattr");
-	if (ft_strcmp(s, "DEFAULT") != 0)
-	{
-		term->c_lflag &= ~(ICANON); // canonique mode
-		term->c_lflag &= ~(ECHO); // plus d'entree standard
-		term->c_cc[VMIN] = 0;
-		term->c_cc[VTIME] = 0; // refresh
-		if (tcsetattr(0, TCSADRAIN, term) == -1)
-			termError("tcsetattr");
-	}
+	if (tcgetattr(0, &term) == -1)
+		termError("tcgetattr[init]");
+	term.c_lflag &= ~(ICANON); // canonique mode
+	term.c_lflag &= ~(ECHO); // plus d'entree standard
+	term.c_cc[VMIN] = 0;
+	term.c_cc[VTIME] = 0; // refresh
+	if (tcsetattr(0, TCSADRAIN, &term) == -1)
+		termError("tcsetattr[init]");
 }
