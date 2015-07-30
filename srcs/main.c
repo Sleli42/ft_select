@@ -6,7 +6,7 @@
 /*   By: lubaujar <lubaujar@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2015/06/24 00:59:50 by lubaujar          #+#    #+#             */
-/*   Updated: 2015/07/29 02:15:36 by lubaujar         ###   ########.fr       */
+/*   Updated: 2015/07/30 22:13:54 by lubaujar         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -36,21 +36,29 @@ void	loop(t_all *all)
 
 	tputs_termcap("cl");
 	tputs_termcap("vi");
-	// tputs_termcap("ho");
-	display_list(&all->lst);
+	tputs_termcap("ho");
+	display_list(all->lst);
 	while (1091111096051)
 	{
-		if (list_size(all->lst) == 0)
-			return ;
+		global_cpy(all->lst);
 		ret = key_hook(all->lst);
 		if (ret == 1)
 		{
 			tputs_termcap("cl");
-			display_list(&all->lst);
+			display_list(all->lst);
 		}
-		else if (ret == -1)
+		else if (ret == -1 || list_size(all->lst) == 0)
 			return ;
 	}
+}
+
+t_circular	*global_cpy(t_circular *list)
+{
+	static t_circular *cpy;
+
+	if (list)
+		cpy = list;
+	return (cpy);
 }
 
 int		main(int ac, char **av)
@@ -60,6 +68,7 @@ int		main(int ac, char **av)
 	all = NULL;
 	if (ac > 1)
 	{
+		ft_catch_sig();
 		all = init_all(ac, av);
 		loop(all);
 		if (all->lst)

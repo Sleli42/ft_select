@@ -6,7 +6,7 @@
 /*   By: lubaujar <lubaujar@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2015/06/24 01:01:15 by lubaujar          #+#    #+#             */
-/*   Updated: 2015/07/29 01:57:03 by lubaujar         ###   ########.fr       */
+/*   Updated: 2015/07/30 22:04:22 by lubaujar         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -18,6 +18,7 @@
 # include <stdlib.h>
 # include <termios.h>
 # include <curses.h>
+# include <sys/ioctl.h>
 
 # include <stdio.h>
 
@@ -57,6 +58,8 @@ typedef struct		s_circular
 void	loop(t_all *all);
 int		key_hook(t_circular *lst);
 void	reset_term(t_termios default_term);
+t_circular	*global_cpy(t_circular *list);
+
 /*
 ** init.c
 */
@@ -75,13 +78,13 @@ t_circular			*lst_create_elem(char *s);
 void				lst_add_elem_back(t_circular **lst, t_circular *new_elem);
 void				del_circular_list(t_circular **lst);
 size_t				list_size(t_circular *lst);
-int					delete_elem(t_circular **lst);
+int					delete_elem(t_circular **ls0);
 /*
 ** display.c
 */
 int					my_outc(int c);
 void				tputs_termcap(char *tc);
-void				display_list(t_circular **alst);
+void				display_list(t_circular *lst);
 /*
 ** signal.c
 */

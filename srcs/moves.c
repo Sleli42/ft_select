@@ -6,7 +6,7 @@
 /*   By: lubaujar <lubaujar@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2015/07/28 03:52:24 by lubaujar          #+#    #+#             */
-/*   Updated: 2015/07/29 00:08:49 by lubaujar         ###   ########.fr       */
+/*   Updated: 2015/07/30 20:22:57 by lubaujar         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -16,14 +16,18 @@ int		move_cursor_up(t_circular **lst)
 {
 	t_circular	*tmp;
 
-	tmp = *lst;
+	tmp = (*lst)->next;
 	while (tmp)
 	{
 		if (tmp->onArg == 1)
 		{
 			tmp->onArg = 0;
-			tmp->prev->onArg = 1;
+			if (tmp->prev->arg == NULL)
+				tmp->prev->prev->onArg = 1;
+			else
+				tmp->prev->onArg = 1;
 			return (1);
+
 		}
 		tmp = tmp->next;
 	}
@@ -34,13 +38,16 @@ int		move_cursor_down(t_circular **lst)
 {
 	t_circular	*tmp;
 
-	tmp = *lst;
+	tmp = (*lst)->next;
 	while (tmp)
 	{
 		if (tmp->onArg == 1)
 		{
 			tmp->onArg = 0;
-			tmp->next->onArg = 1;
+			if (tmp->next->arg == NULL)
+				tmp->next->next->onArg = 1;
+			else
+				tmp->next->onArg = 1;
 			return (1);
 		}
 		tmp = tmp->next;
@@ -52,7 +59,7 @@ int		select_cursor(t_circular **lst)
 {
 	t_circular	*tmp;
 
-	tmp = *lst;
+	tmp = (*lst)->next;
 	while (tmp)
 	{
 		if (tmp->onArg == 1 && tmp->select == 0)
