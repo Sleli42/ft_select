@@ -6,7 +6,7 @@
 /*   By: lubaujar <lubaujar@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2015/06/24 00:59:50 by lubaujar          #+#    #+#             */
-/*   Updated: 2015/07/30 22:13:54 by lubaujar         ###   ########.fr       */
+/*   Updated: 2015/07/31 01:04:39 by lubaujar         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -25,6 +25,8 @@ int		key_hook(t_circular *lst)
 		return (select_cursor(&lst));
 	if (K_BACKSPACE || K_DELETE)
 		return (delete_elem(&lst));
+	if (K_ENTER)
+		return (display_choices(&lst));
 	if ((buff[0] == 4 && !buff[1] && !buff[2]) || K_ECHAP)
 		return (-1);
 	return (0);
@@ -40,7 +42,7 @@ void	loop(t_all *all)
 	display_list(all->lst);
 	while (1091111096051)
 	{
-		global_cpy(all->lst);
+		f_cpy(all);
 		ret = key_hook(all->lst);
 		if (ret == 1)
 		{
@@ -52,9 +54,9 @@ void	loop(t_all *all)
 	}
 }
 
-t_circular	*global_cpy(t_circular *list)
+t_all	*f_cpy(t_all *list)
 {
-	static t_circular *cpy;
+	static t_all *cpy;
 
 	if (list)
 		cpy = list;

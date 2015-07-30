@@ -6,7 +6,7 @@
 /*   By: lubaujar <lubaujar@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2015/07/17 21:39:43 by lubaujar          #+#    #+#             */
-/*   Updated: 2015/07/30 21:10:58 by lubaujar         ###   ########.fr       */
+/*   Updated: 2015/07/31 01:29:23 by lubaujar         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -25,6 +25,49 @@ void	tputs_termcap(char *tc)
 	if ((res = tgetstr(tc, NULL)) == NULL)
 		return ;
 	tputs(res, 0, lu_putchar);
+}
+
+int		check_next(t_circular *lst)
+{
+	t_circular	*tmp;
+
+	tmp = lst;
+	while (tmp)
+	{
+		if (tmp->next->select == 1)
+			return (1);
+		tmp = tmp->next;
+		if (tmp->arg == NULL)
+			return (0);
+	}
+	return (0);
+}
+
+int		display_choices(t_circular **lst)
+{
+	t_circular	*tmp;
+
+	tmp = (*lst)->next;
+	if (tmp)
+	{
+		tputs_termcap("ue");
+		tputs_termcap("me");
+		while (tmp)
+		{
+			if (tmp->select == 1)
+			{
+				ft_putstr(tmp->arg);
+				if (check_next(tmp) == 1)
+					write(1, " ", 1);
+				else
+					write(1, "\n", 1);
+			}
+			tmp = tmp->next;
+			if (tmp == *lst)
+				return (-1);
+		}
+	}
+	return (0);
 }
 
 void	display_list(t_circular *lst)

@@ -6,7 +6,7 @@
 /*   By: lubaujar <lubaujar@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2015/06/24 01:01:15 by lubaujar          #+#    #+#             */
-/*   Updated: 2015/07/30 22:04:22 by lubaujar         ###   ########.fr       */
+/*   Updated: 2015/07/31 01:20:24 by lubaujar         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -32,6 +32,7 @@
 # define K_ECHAP		(buff[0] == 27 && !buff[1] && !buff[2])
 # define K_BACKSPACE	(buff[0] == 27 && buff[1] == 91 && buff[2] == 51)
 # define K_DELETE		(buff[0] == 127 && !buff[1] && !buff[2])
+# define K_ENTER		(buff[0] == 10 && !buff[1] && !buff[2])
 
 typedef struct termios t_termios;
 
@@ -58,7 +59,7 @@ typedef struct		s_circular
 void	loop(t_all *all);
 int		key_hook(t_circular *lst);
 void	reset_term(t_termios default_term);
-t_circular	*global_cpy(t_circular *list);
+t_all	*f_cpy(t_all *all);
 
 /*
 ** init.c
@@ -82,7 +83,9 @@ int					delete_elem(t_circular **ls0);
 /*
 ** display.c
 */
+int		check_next(t_circular *lst);
 int					my_outc(int c);
+int					display_choices(t_circular **lst);
 void				tputs_termcap(char *tc);
 void				display_list(t_circular *lst);
 /*
