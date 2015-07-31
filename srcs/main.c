@@ -6,31 +6,11 @@
 /*   By: lubaujar <lubaujar@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2015/06/24 00:59:50 by lubaujar          #+#    #+#             */
-/*   Updated: 2015/07/31 01:04:39 by lubaujar         ###   ########.fr       */
+/*   Updated: 2015/07/31 21:14:51 by lubaujar         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "ft_select.h"
-
-int		key_hook(t_circular *lst)
-{
-	char	buff[3] = {0};
-
-	read(0, buff, 3);
-	if (K_UP)
-		return (move_cursor_up(&lst));
-	if (K_DOWN)
-		return (move_cursor_down(&lst));
-	if (K_SPACE)
-		return (select_cursor(&lst));
-	if (K_BACKSPACE || K_DELETE)
-		return (delete_elem(&lst));
-	if (K_ENTER)
-		return (display_choices(&lst));
-	if ((buff[0] == 4 && !buff[1] && !buff[2]) || K_ECHAP)
-		return (-1);
-	return (0);
-}
 
 void	loop(t_all *all)
 {
@@ -49,18 +29,9 @@ void	loop(t_all *all)
 			tputs_termcap("cl");
 			display_list(all->lst);
 		}
-		else if (ret == -1 || list_size(all->lst) == 0)
+		else if (ret == -1 || c_list_size(all->lst) == 0)
 			return ;
 	}
-}
-
-t_all	*f_cpy(t_all *list)
-{
-	static t_all *cpy;
-
-	if (list)
-		cpy = list;
-	return (cpy);
 }
 
 int		main(int ac, char **av)
@@ -84,7 +55,7 @@ void	reset_term(t_termios default_term)
 {
 	tputs_termcap("ve");
 	if (tcgetattr(0, &default_term) == -1)
-		termError("tcgetattr[reset]");
+		term_error("tcgetattr[reset]");
 	if (tcsetattr(0, 0, &default_term) == -1)
-		termError("tcsetattr[reset]");
+		term_error("tcsetattr[reset]");
 }

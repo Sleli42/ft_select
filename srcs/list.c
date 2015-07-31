@@ -6,7 +6,7 @@
 /*   By: lubaujar <lubaujar@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2015/07/16 04:08:55 by lubaujar          #+#    #+#             */
-/*   Updated: 2015/07/30 21:25:14 by lubaujar         ###   ########.fr       */
+/*   Updated: 2015/07/31 21:13:03 by lubaujar         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -60,7 +60,7 @@ void		lst_add_elem_back(t_circular **alst, t_circular *new_elem)
 		*alst = new_elem;
 }
 
-size_t	list_size(t_circular *lst)
+size_t	c_list_size(t_circular *lst)
 {
 	t_circular	*tmp;
 	int			ret;
@@ -77,42 +77,6 @@ size_t	list_size(t_circular *lst)
 			return (ret);
 	}
 	return (ret);
-}
-
-void	list_del_one(t_circular *elem)
-{
-	elem->prev->next = elem->next;
-	elem->next->prev = elem->prev;
-	ft_strdel(&elem->arg);
-	free(elem);
-}
-
-int		delete_elem(t_circular **lst)
-{
-	t_circular	*temp;
-
-	temp = (*lst)->next;
-	if (temp->next == *lst)
-	{
-		list_del_one(temp);
-		return (1);
-	}
-	while (temp)
-	{
-		if (temp->onArg == 1)
-		{
-			list_del_one(temp);
-			if (temp->next->arg != NULL)
-				temp->next->onArg = 1;
-			else
-				temp->next->next->onArg = 1;
-			return (1);
-		}
-		temp = temp->next;
-		if (temp == *lst)
-			break ;
-	}
-	return (-1);
 }
 
 void	del_circular_list(t_circular **lst)

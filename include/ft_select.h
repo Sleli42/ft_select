@@ -6,7 +6,7 @@
 /*   By: lubaujar <lubaujar@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2015/06/24 01:01:15 by lubaujar          #+#    #+#             */
-/*   Updated: 2015/07/31 01:20:24 by lubaujar         ###   ########.fr       */
+/*   Updated: 2015/07/31 21:14:13 by lubaujar         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -40,6 +40,9 @@ typedef struct		s_all
 {
 	struct termios		default_term;
 	struct termios		term;
+	struct winsize		ws;
+	int					tty;
+	size_t				maxlen;
 	struct s_circular	*lst;
 }					t_all;
 
@@ -55,35 +58,41 @@ typedef struct		s_circular
 }					t_circular;
 
 
-
-void	loop(t_all *all);
-int		key_hook(t_circular *lst);
-void	reset_term(t_termios default_term);
-t_all	*f_cpy(t_all *all);
-
+/*
+** main.c
+*/
+void				loop(t_all *all);
+void				reset_term(t_termios default_term);
 /*
 ** init.c
 */
 t_all				*init_all(int ac, char **av);
 int					init_tty(void);
 void				init_termios(struct termios term);
+void				init_windows_size(t_all *all);
 /*
 ** error.c
 */
-void				termError(char *err);
+void				term_error(char *err);
 /*
 ** list.c
 */
 t_circular			*create_circular_list(int ac, char **av);
 t_circular			*lst_create_elem(char *s);
 void				lst_add_elem_back(t_circular **lst, t_circular *new_elem);
+size_t				c_list_size(t_circular *lst);
 void				del_circular_list(t_circular **lst);
-size_t				list_size(t_circular *lst);
-int					delete_elem(t_circular **ls0);
+/*
+** utils.c
+*/
+t_all				*f_cpy(t_all *all);
+size_t				define_maxlen(t_circular *lst);
+int					delete_elem(t_circular **lst);
+int					check_next(t_circular *lst);
+int					key_hook(t_circular *lst);
 /*
 ** display.c
 */
-int		check_next(t_circular *lst);
 int					my_outc(int c);
 int					display_choices(t_circular **lst);
 void				tputs_termcap(char *tc);
@@ -91,6 +100,7 @@ void				display_list(t_circular *lst);
 /*
 ** signal.c
 */
+void				c_list_del_one(t_circular *elem);
 void				ft_catch_sig(void);
 void				ft_func(int sig);
 /*

@@ -6,7 +6,7 @@
 /*   By: lubaujar <lubaujar@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2015/07/15 03:15:08 by lubaujar          #+#    #+#             */
-/*   Updated: 2015/07/30 17:01:26 by lubaujar         ###   ########.fr       */
+/*   Updated: 2015/07/31 21:05:38 by lubaujar         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -20,7 +20,16 @@ t_all	*init_all(int ac, char **av)
 		return (NULL);
 	init_termios(all->term);
 	all->lst = create_circular_list(ac, av);
+	all->maxlen = define_maxlen(all->lst);
+	all->tty = init_tty();
+	init_windows_size(all);
 	return (all);
+}
+
+void	init_windows_size(t_all *all)
+{
+	if (ioctl(all->tty, TIOCGWINSZ, &all->ws) == -1)
+		term_error("ioctl");
 }
 
 int		init_tty(void)
@@ -28,15 +37,9 @@ int		init_tty(void)
 	int		tty;
 
 	if ((tty = ttyslot()) == -1)
-	{
-		printf("no term found\n");
 		return (-1);
-	}
-	if (!isatty(tty))
-	{
-		printf("fd not open\n");
+	if (isatty(tty) == 0)
 		return (NOTATTY);
-	}
 	return (tty);
 }
 
@@ -46,15 +49,15 @@ void	init_termios(struct termios term)
 	char	*term_name;
 
 	if ((term_name = getenv("TERM")) == NULL)
-		termError("getenv");
+		term_error("getenv");
 	if (tgetent(NULL, term_name) == -1)
-		termError("tgetent");
+		term_error("tgetent");
 	if (tcgetattr(0, &term) == -1)
-		termError("tcgetattr[init]");
+		term_error("tcgetattr[init]");
 	term.c_lflag &= ~(ICANON); // canonique mode
 	term.c_lflag &= ~(ECHO); // plus d'entree standard
 	term.c_cc[VMIN] = 0;
 	term.c_cc[VTIME] = 0; // refresh
 	if (tcsetattr(0, TCSADRAIN, &term) == -1)
-		termError("tcsetattr[init]");
+		term_error("tcsetattr[init]");
 }

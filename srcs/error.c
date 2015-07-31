@@ -6,13 +6,13 @@
 /*   By: lubaujar <lubaujar@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2015/07/16 02:30:28 by lubaujar          #+#    #+#             */
-/*   Updated: 2015/07/31 00:44:56 by lubaujar         ###   ########.fr       */
+/*   Updated: 2015/07/31 21:05:10 by lubaujar         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "ft_select.h"
 
-void	termError(char *err)
+void	term_error(char *err)
 {
 	if (ft_strcmp(err, "getenv") == 0)
 		ft_putendl("Error GETENV(), var TERM == NULL\n");
@@ -26,5 +26,7 @@ void	termError(char *err)
 		ft_putendl("Error TCGETATTR[reset], empty struct\n");
 	if (ft_strcmp(err, "tcsetattr[reset]") == 0)
 		ft_putendl("Error TCSETATTR[reset], no changes made\n");
+	if (ft_strcmp(err, "ioctl") == 0)
+		ft_putendl("Error IOCTL, windows size not init\n");
 	return ;
 }
