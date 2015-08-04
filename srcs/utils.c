@@ -6,7 +6,7 @@
 /*   By: lubaujar <lubaujar@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2015/07/31 20:52:33 by lubaujar          #+#    #+#             */
-/*   Updated: 2015/07/31 21:04:06 by lubaujar         ###   ########.fr       */
+/*   Updated: 2015/08/04 18:59:37 by lubaujar         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -65,22 +65,6 @@ int		delete_elem(t_circular **lst)
 			break ;
 	}
 	return (-1);
-}
-
-int		check_next(t_circular *lst)
-{
-	t_circular	*tmp;
-
-	tmp = lst;
-	while (tmp)
-	{
-		if (tmp->next->select == 1)
-			return (1);
-		tmp = tmp->next;
-		if (tmp->arg == NULL || tmp == lst)
-			return (0);
-	}
-	return (0);
 }
 
 int		key_hook(t_circular *lst)

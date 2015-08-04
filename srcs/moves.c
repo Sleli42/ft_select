@@ -6,7 +6,7 @@
 /*   By: lubaujar <lubaujar@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2015/07/28 03:52:24 by lubaujar          #+#    #+#             */
-/*   Updated: 2015/07/31 21:14:12 by lubaujar         ###   ########.fr       */
+/*   Updated: 2015/08/04 18:41:30 by lubaujar         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -27,7 +27,6 @@ int		move_cursor_up(t_circular **lst)
 			else
 				tmp->prev->onArg = 1;
 			return (1);
-
 		}
 		tmp = tmp->next;
 	}

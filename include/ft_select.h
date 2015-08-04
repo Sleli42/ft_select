@@ -6,7 +6,7 @@
 /*   By: lubaujar <lubaujar@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2015/06/24 01:01:15 by lubaujar          #+#    #+#             */
-/*   Updated: 2015/07/31 21:14:13 by lubaujar         ###   ########.fr       */
+/*   Updated: 2015/08/04 18:56:08 by lubaujar         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -88,7 +88,6 @@ void				del_circular_list(t_circular **lst);
 t_all				*f_cpy(t_all *all);
 size_t				define_maxlen(t_circular *lst);
 int					delete_elem(t_circular **lst);
-int					check_next(t_circular *lst);
 int					key_hook(t_circular *lst);
 /*
 ** display.c

@@ -6,7 +6,7 @@
 /*   By: lubaujar <lubaujar@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2015/07/15 03:15:08 by lubaujar          #+#    #+#             */
-/*   Updated: 2015/07/31 21:05:38 by lubaujar         ###   ########.fr       */
+/*   Updated: 2015/08/04 18:41:20 by lubaujar         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -43,8 +43,7 @@ int		init_tty(void)
 	return (tty);
 }
 
-
-void	init_termios(struct termios term)
+void	init_termios(t_termios term)
 {
 	char	*term_name;
 
@@ -54,10 +53,10 @@ void	init_termios(struct termios term)
 		term_error("tgetent");
 	if (tcgetattr(0, &term) == -1)
 		term_error("tcgetattr[init]");
-	term.c_lflag &= ~(ICANON); // canonique mode
-	term.c_lflag &= ~(ECHO); // plus d'entree standard
+	term.c_lflag &= ~(ICANON);
+	term.c_lflag &= ~(ECHO);
 	term.c_cc[VMIN] = 0;
-	term.c_cc[VTIME] = 0; // refresh
+	term.c_cc[VTIME] = 0;
 	if (tcsetattr(0, TCSADRAIN, &term) == -1)
 		term_error("tcsetattr[init]");
 }

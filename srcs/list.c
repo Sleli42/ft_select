@@ -6,13 +6,13 @@
 /*   By: lubaujar <lubaujar@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2015/07/16 04:08:55 by lubaujar          #+#    #+#             */
-/*   Updated: 2015/07/31 21:13:03 by lubaujar         ###   ########.fr       */
+/*   Updated: 2015/08/04 18:42:19 by lubaujar         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "ft_select.h"
 
-t_circular	*create_circular_list(int ac, char **av)
+t_circular		*create_circular_list(int ac, char **av)
 {
 	t_circular	*lst;
 	int			i;
@@ -42,7 +42,7 @@ t_circular		*lst_create_elem(char *s)
 	return (new);
 }
 
-void		lst_add_elem_back(t_circular **alst, t_circular *new_elem)
+void			lst_add_elem_back(t_circular **alst, t_circular *new_elem)
 {
 	t_circular	*curr;
 
@@ -60,7 +60,7 @@ void		lst_add_elem_back(t_circular **alst, t_circular *new_elem)
 		*alst = new_elem;
 }
 
-size_t	c_list_size(t_circular *lst)
+size_t			c_list_size(t_circular *lst)
 {
 	t_circular	*tmp;
 	int			ret;
@@ -79,23 +79,23 @@ size_t	c_list_size(t_circular *lst)
 	return (ret);
 }
 
-void	del_circular_list(t_circular **lst)
+void			del_circular_list(t_circular **lst)
 {
-	t_circular	*nextElem;
+	t_circular	*next_elem;
 	t_circular	*tmp;
 
 	tmp = *lst;
-	nextElem = NULL;
+	next_elem = NULL;
 	if (tmp)
 	{
 		while (tmp)
 		{
-			nextElem = tmp->next;
+			next_elem = tmp->next;
 			if (tmp->arg)
 				ft_strdel(&tmp->arg);
 			if (tmp)
 				free(tmp);
-			tmp = nextElem;
+			tmp = next_elem;
 			if (tmp == *lst)
 				return ;
 		}

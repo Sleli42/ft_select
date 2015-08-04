@@ -6,13 +6,13 @@
 /*   By: lubaujar <lubaujar@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2015/07/27 22:28:50 by lubaujar          #+#    #+#             */
-/*   Updated: 2015/07/31 21:14:00 by lubaujar         ###   ########.fr       */
+/*   Updated: 2015/08/04 18:45:46 by lubaujar         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "ft_select.h"
 
-void	c_list_del_one(t_circular *elem)
+void		c_list_del_one(t_circular *elem)
 {
 	elem->prev->next = elem->next;
 	elem->next->prev = elem->prev;
@@ -31,12 +31,14 @@ static void	resize_win(void)
 		display_list(f_cpy(NULL)->lst);
 }
 
-void	ft_func(int sig)
+void		ft_func(int sig)
 {
+	char	cp[2];
+
+	cp[0] = (f_cpy(NULL)->term.c_cc[VSUSP]);
+	cp[1] = 0;
 	if (sig == SIGTSTP)
 	{
-		char	cp[2] = {f_cpy(NULL)->term.c_cc[VSUSP], 0};
-
 		reset_term(f_cpy(NULL)->term);
 		signal(SIGTSTP, SIG_DFL);
    		ioctl(0, TIOCSTI, cp);
@@ -56,7 +58,7 @@ void	ft_func(int sig)
 		exit(1);
 }
 
-void	ft_catch_sig(void)
+void		ft_catch_sig(void)
 {
 	int sig;
 
