@@ -6,7 +6,7 @@
 /*   By: lubaujar <lubaujar@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2015/07/27 22:28:50 by lubaujar          #+#    #+#             */
-/*   Updated: 2015/08/04 18:45:46 by lubaujar         ###   ########.fr       */
+/*   Updated: 2015/08/24 23:15:50 by lubaujar         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -25,10 +25,13 @@ static void	resize_win(void)
 	tputs_termcap("cl");
 	init_windows_size(f_cpy(NULL));
 	if (f_cpy(NULL)->ws.ws_row <= c_list_size(f_cpy(NULL)->lst)
-		|| f_cpy(NULL)->ws.ws_col < f_cpy(NULL)->maxlen)
+		|| f_cpy(NULL)->ws.ws_col <= f_cpy(NULL)->maxlen)
 		ft_putstr("Screen too small\n");
 	else
+	{
+		tputs_termcap("cl");
 		display_list(f_cpy(NULL)->lst);
+	}
 }
 
 void		ft_func(int sig)
@@ -51,6 +54,7 @@ void		ft_func(int sig)
 	}
 	if (sig == SIGWINCH)
 	{
+		tputs_termcap("cl");
 		resize_win();
 		signal(SIGWINCH, ft_func);
 	}

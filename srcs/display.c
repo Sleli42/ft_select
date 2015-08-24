@@ -6,7 +6,7 @@
 /*   By: lubaujar <lubaujar@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2015/07/17 21:39:43 by lubaujar          #+#    #+#             */
-/*   Updated: 2015/08/04 19:00:58 by lubaujar         ###   ########.fr       */
+/*   Updated: 2015/08/24 23:17:49 by lubaujar         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -40,13 +40,14 @@ int		display_choices(t_circular **lst)
 		while (tmp)
 		{
 			if (tmp->select == 1 && tmp->arg != NULL)
+			{
 				ret = ft_strjoin(ret, tmp->arg);
-			ret = ft_strjoin(ret, " ");
+				ret = ft_strjoin(ret, " ");
+			}
 			tmp = tmp->next;
 			if (tmp == *lst)
 			{
 				ret = ft_strjoin(ret, "\n");
-				tputs_termcap("cl");
 				ft_putstr(ret);
 				return (-1);
 			}
@@ -60,6 +61,7 @@ void	display_list(t_circular *lst)
 	t_circular	*nav;
 
 	nav = lst->next;
+	tputs_termcap("cl");
 	if (c_list_size(lst) == 0)
 	{
 		write(1, "\0", 1);

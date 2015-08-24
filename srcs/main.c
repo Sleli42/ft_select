@@ -6,7 +6,7 @@
 /*   By: lubaujar <lubaujar@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2015/06/24 00:59:50 by lubaujar          #+#    #+#             */
-/*   Updated: 2015/07/31 21:14:51 by lubaujar         ###   ########.fr       */
+/*   Updated: 2015/08/04 20:48:48 by lubaujar         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -43,7 +43,8 @@ int		main(int ac, char **av)
 	{
 		ft_catch_sig();
 		all = init_all(ac, av);
-		loop(all);
+		if (all->ws.ws_col > all->maxlen)
+			loop(all);
 		if (all->lst)
 			del_circular_list(&all->lst);
 		reset_term(all->default_term);
