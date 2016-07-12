@@ -3,31 +3,33 @@
 #                                                         :::      ::::::::    #
 #    Makefile                                           :+:      :+:    :+:    #
 #                                                     +:+ +:+         +:+      #
-#    By: lubaujar <lubaujar@student.42.fr>          +#+  +:+       +#+         #
+#    By: lubaujar <marvin@42.fr>                    +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
-#    Created: 2015/06/24 00:57:49 by lubaujar          #+#    #+#              #
-#    Updated: 2015/07/31 20:53:59 by lubaujar         ###   ########.fr        #
+#    Created: 2016/07/11 23:34:26 by lubaujar          #+#    #+#              #
+#    Updated: 2016/07/11 23:34:27 by lubaujar         ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
 NAME = ft_select
 RM = rm -rf
-FLAGS = -g -Wall -Wextra -Werror
-LDFLAGS = -I./include/ -I./libft/include/
+FLAGS = -Wall -Wextra -Werror
+DEBUG = -g -gmodules -fexceptions -ftrapv -fcommon
+LDFLAGS = -I./includes/ -I./libft/include/
 
-SRC = main.c \
-		init.c \
-		error.c \
-		list.c \
-		display.c \
-		signal.c \
-		moves.c \
-		utils.c
+SRC			= main.c \
+				loop.c \
+				termcaps.c \
+				clist.c \
+				init.c \
+				error.c \
+				parse_keys.c \
+				select_tools.c
 
 OBJ = $(SRC:.c=.o)
+
 	SRCDIR	= ./srcs/
 	OBJDIR	= ./objs/
-	INCDIR	= ./include/
+	INCDIR	= ./includes/
 	SRCS	= $(addprefix $(SRCDIR), $(SRC))
 	OBJS	= $(addprefix $(OBJDIR), $(OBJ))
 	INCS	= $(addprefix $(INCDIR), $(INC))
@@ -36,26 +38,26 @@ all: $(NAME)
 
 $(NAME): $(OBJS) $(INCS)
 	@gcc $(FLAGS) -o $@ $^ -L./libft/ -lft -ltermcap
-	@echo "\t \033[32m[All's Fine]\033[0m"
+	@echo "\t\t\033[35mexec \033[0m./$(NAME)"
 
 $(OBJS): $(SRCS)
-	make -C libft/
+	@make -C libft/
 	@gcc $(FLAGS) -c $(SRCS) $(LDFLAGS)
-	@echo "\\033[1;34mSelect in progress ..\n\tSelect in progress ..."
-	@echo "\\033[1;34m\t\tSelect in progress ...\\033[0;39m"
+	@echo "\033[35m[ GCC ] \033[0m   *.c"
 	@mkdir -p $(OBJDIR)
 	@mv $(OBJ) $(OBJDIR)
 
 clean:
-	@echo "\nRM *.o.. \t      \033[32mDELETE!\033[0m"
-	@$(RM) $(OBJS)
-	@$(RM) *.o
+	@echo "\033[35m[ DELETE ]\033[0m *.o"
+	@$(RM) $(OBJ)
+	@$(RM) ./objs/
 
 fclean: clean
-	make fclean -C libft/
-	@echo "RM ./ft_minishell..   \033[32mDELETE!\033[0m"
+	@make fclean -C libft/
+	@echo "\033[35m[ DELETE ]\033[0m ./21sh"
 	@$(RM) $(NAME)
 
 re: fclean all
 
 .PHONY: all clean fclean re
+

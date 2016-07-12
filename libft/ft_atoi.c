@@ -6,7 +6,7 @@
 /*   By: lubaujar <lubaujar@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2014/11/05 08:42:02 by lubaujar          #+#    #+#             */
-/*   Updated: 2014/11/13 14:29:02 by lubaujar         ###   ########.fr       */
+/*   Updated: 2015/08/24 00:32:47 by lubaujar         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -20,6 +20,8 @@ int	ft_atoi(char const *s)
 
 	value = 0;
 	digit = 0;
+	if (ft_strlen(s) > 19)
+		return (-1);
 	while (*s == ' ' || *s == '\t' || *s == '\n'
 			|| *s == '\r' || *s == '\v' || *s == '\f')
 		s++;

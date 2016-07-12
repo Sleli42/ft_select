@@ -6,7 +6,7 @@
 #    By: lubaujar <lubaujar@student.42.fr>          +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2014/11/12 19:50:41 by lubaujar          #+#    #+#              #
-#    Updated: 2015/07/31 21:14:23 by lubaujar         ###   ########.fr        #
+#    Updated: 2016/03/03 15:44:14 by lubaujar         ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -18,6 +18,7 @@ RM = rm -f
 
 SRC = ft_atoi.c\
 	  ft_bzero.c\
+	  ft_epur_str.c\
 	  ft_isalnum.c\
 	  ft_isalpha.c\
 	  ft_isascii.c\
@@ -95,24 +96,18 @@ $(NAME):
 	@gcc $(FLAGS) $(INC) -c $(SRC)
 	@ar rc $(NAME) $(OBJ)
 	@ranlib $(NAME)
-	@echo "\n\t \033[32m[All's Fine]\033[0m"
 
 clean:
-	@echo "\nRM *.o.. \t      \033[32mDELETE!\033[0m"
 	@$(RM) $(OBJ)
 	@$(RM) *.o
 
 fclean: clean
-	@echo "RM libft.a..\t      \033[32mOK BITCH!\033[0m"
 	@$(RM) $(NAME)
 
 re: fclean all
 
 exec:
-	@echo "\033[37mgcc *.c -I./includes/ ..\033[0m"
-	@echo "  \033[37m..exec ./a.out\033[0m\n"
 	@gcc *.c -g $(FLAGS) -I./includes/
-	@echo "\033[31m./a.out\033[m\n"
 	@./a.out
 
 .PHONY: all clean fclean re exec

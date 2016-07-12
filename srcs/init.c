@@ -3,36 +3,24 @@
 /*                                                        :::      ::::::::   */
 /*   init.c                                             :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: lubaujar <lubaujar@student.42.fr>          +#+  +:+       +#+        */
+/*   By: lubaujar <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2015/07/15 03:15:08 by lubaujar          #+#    #+#             */
-/*   Updated: 2015/08/04 18:41:20 by lubaujar         ###   ########.fr       */
+/*   Created: 2016/07/11 23:45:45 by lubaujar          #+#    #+#             */
+/*   Updated: 2016/07/11 23:46:00 by lubaujar         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "ft_select.h"
 
-t_all	*init_all(int ac, char **av)
+void		init_windows_size(t_data *data)
 {
-	t_all	*all;
-
-	if (!(all = (t_all *)malloc(sizeof(t_all))))
-		return (NULL);
-	init_termios(all->term);
-	all->lst = create_circular_list(ac, av);
-	all->maxlen = define_maxlen(all->lst);
-	all->tty = init_tty();
-	init_windows_size(all);
-	return (all);
-}
-
-void	init_windows_size(t_all *all)
-{
-	if (ioctl(all->tty, TIOCGWINSZ, &all->ws) == -1)
+	if (ioctl(init_tty(), TIOCGWINSZ, &data->ws) == -1)
 		term_error("ioctl");
+	data->max_rows = tgetnum("li");
+	data->max_cols = tgetnum("co");
 }
 
-int		init_tty(void)
+int			init_tty(void)
 {
 	int		tty;
 
@@ -43,20 +31,20 @@ int		init_tty(void)
 	return (tty);
 }
 
-void	init_termios(t_termios term)
+t_all		*init_all(char **env)
 {
-	char	*term_name;
+	t_all		*all;
 
-	if ((term_name = getenv("TERM")) == NULL)
-		term_error("getenv");
-	if (tgetent(NULL, term_name) == -1)
-		term_error("tgetent");
-	if (tcgetattr(0, &term) == -1)
-		term_error("tcgetattr[init]");
-	term.c_lflag &= ~(ICANON);
-	term.c_lflag &= ~(ECHO);
-	term.c_cc[VMIN] = 0;
-	term.c_cc[VTIME] = 0;
-	if (tcsetattr(0, TCSADRAIN, &term) == -1)
-		term_error("tcsetattr[init]");
+	all = NULL;
+	if (!(all = (t_all *)malloc(sizeof(t_all))))
+		error("MALLOC");
+	all->dupenv = ft_dupenv(env);
+	all->data = NULL;
+	if (!(all->data = (t_data *)malloc(sizeof(t_data))))
+		error("MALLOC");
+	all->data->max_rows = 0;
+	init_term(all->dupenv);
+	init_windows_size(all->data);
+	all->select = create_clst();
+	return (all);
 }

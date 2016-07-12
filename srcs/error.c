@@ -3,30 +3,34 @@
 /*                                                        :::      ::::::::   */
 /*   error.c                                            :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: lubaujar <lubaujar@student.42.fr>          +#+  +:+       +#+        */
+/*   By: lubaujar <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2015/07/16 02:30:28 by lubaujar          #+#    #+#             */
-/*   Updated: 2015/07/31 21:05:10 by lubaujar         ###   ########.fr       */
+/*   Created: 2016/07/11 23:47:49 by lubaujar          #+#    #+#             */
+/*   Updated: 2016/07/11 23:47:50 by lubaujar         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "ft_select.h"
 
-void	term_error(char *err)
+void		error(char *err)
 {
-	if (ft_strcmp(err, "getenv") == 0)
-		ft_putendl("Error GETENV(), var TERM == NULL\n");
-	if (ft_strcmp(err, "tgetent") == 0)
-		ft_putendl("Error TGETENT, terminfo database could not be found\n");
-	if (ft_strcmp(err, "tcgetattr[init]") == 0)
-		ft_putendl("Error TCGETATTR[init], empty struct\n");
-	if (ft_strcmp(err, "tcsetattr") == 0)
-		ft_putendl("Error TCSETATTR, no changes made\n");
-	if (ft_strcmp(err, "tcgetattr[reset]") == 0)
-		ft_putendl("Error TCGETATTR[reset], empty struct\n");
-	if (ft_strcmp(err, "tcsetattr[reset]") == 0)
-		ft_putendl("Error TCSETATTR[reset], no changes made\n");
-	if (ft_strcmp(err, "ioctl") == 0)
-		ft_putendl("Error IOCTL, windows size not init\n");
+	if (ft_strcmp(err, "MALLOC") == 0)
+		ft_putendl("Malloc error.");
+	// if (ft_strcmp(err, "OPENDIR") == 0)
+	// 	ft_putendl("Opendir() error.");
+	// if (ft_strcmp(err, "CLOSEDIR") == 0)
+	// 	ft_putendl("Closedir() error.");
 	return ;
+}
+
+void		term_error(char *err)
+{
+	if (!ft_strcmp(err, "GETENV"))
+		ft_putstr("getenv() error\n");
+	if (!ft_strcmp(err, "TGETENT"))
+		ft_putstr("tgetent() error\n");
+	if (!ft_strcmp(err, "TCGETATTR"))
+		ft_putstr("tcgetattr() error\n");
+	if (!ft_strcmp(err, "TCSETATTR"))
+		ft_putstr("TCSETATTR() error\n");
 }
