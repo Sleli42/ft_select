@@ -43,8 +43,11 @@ t_all		*init_all(char **env)
 	if (!(all->data = (t_data *)malloc(sizeof(t_data))))
 		error("MALLOC");
 	all->data->max_rows = 0;
+	all->data->curr_line = 1;
 	init_term(all->dupenv);
 	init_windows_size(all->data);
 	all->select = create_clst();
+	all->ret_list = create_clst();
+	all->key_arrow = 0;
 	return (all);
 }

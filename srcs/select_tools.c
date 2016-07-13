@@ -12,6 +12,23 @@
 
 #include "ft_select.h"
 
+void	set_index(t_clist *lst)
+{
+	t_select	*tmp;
+	int			index;
+
+	tmp = lst->head;
+	index = 0;
+	if (!tmp)
+		return ;
+	while (tmp)
+	{
+		tmp->index = index;
+		index += 1;
+		tmp = tmp->next;
+	}
+}
+
 char	**ft_dupenv(char **env)
 {
 	char		**dup;

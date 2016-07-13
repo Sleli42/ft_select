@@ -34,6 +34,7 @@ t_select	*clst_create_elem(char *s)
 	if (!(new = (t_select *)malloc(sizeof(t_select))))
 		return (NULL);
 	new->arg = ft_strdup(s);
+	new->index = 0;
 	new->on_arg = 0;
 	new->select_arg = 0;
 	new->next = NULL;
@@ -57,6 +58,56 @@ t_clist		*clst_add_elem_back(t_clist *lst, t_select *node)
 			lst->tail = node;
 		}
 		lst->lenght++;
+	}
+	return (lst);
+}
+
+int				update_list(t_clist *lst, t_select *elem)
+{
+	if (!elem->next && elem->prev)
+	{
+		lst->tail = elem->prev;
+		lst->tail->next = NULL;
+		ft_strdel(&elem->arg);
+	}
+	else if (!elem->prev && elem->next)
+	{
+		lst->head = elem->next;
+		lst->head->prev = NULL;
+		ft_strdel(&elem->arg);
+	}
+	else
+	{
+		elem->prev->next = elem->next;
+		elem->next->prev = elem->prev;
+		ft_strdel(&elem->arg);
+	}
+	return (1);
+}
+
+
+t_clist		*clst_del_one(t_clist *lst, char *arg2del)
+{
+	t_select	*tmp;
+	int			found;
+
+	tmp = lst->head;
+	found = 0;
+	if (lst)
+	{
+		while (tmp && !found)
+		{
+			if (ft_strncmp(tmp->arg, arg2del, ft_strlen(arg2del)) == 0)
+			{
+				if (!tmp->next && !tmp->prev)
+					(lst->head->arg) ? ft_strdel(&lst->head->arg) : NULL;
+				else
+					found = update_list(lst, tmp);
+				lst->lenght--;
+				free(tmp);
+			}
+			tmp = tmp->next;
+		}
 	}
 	return (lst);
 }

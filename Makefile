@@ -23,7 +23,10 @@ SRC			= main.c \
 				init.c \
 				error.c \
 				parse_keys.c \
-				select_tools.c
+				select_tools.c \
+				display.c \
+				display_tools.c \
+				moves.c
 
 OBJ = $(SRC:.c=.o)
 
