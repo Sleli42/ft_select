@@ -73,18 +73,26 @@ typedef	struct			s_all
 	t_clist				*select;
 	t_clist				*ret_list;
 	char				**dupenv;
-	char				**ret_array;
 	int					key_arrow;
 }						t_all;
 
-// t_all	*f_cpy(t_all *all);
+t_all		*f_cpy(t_all *all);
 /*
 *** |================================================|
 *** |				loop.c					 	 	 |
 *** |================================================|
 */
-void		define_nb_lines_writed(t_clist *lst, t_data *data);
 void		select_loop(t_all *all);
+/*
+*** |================================================|
+*** |				loop_tools.c					 |
+*** |================================================|
+*/
+void		create_ret_list(t_all *all);
+int			define_maxlen_args(t_clist *lst);
+int			nb_spaces_2_add(int currlen, int maxlen);
+void		define_nb_args_by_row(t_clist *lst, t_data *data);
+void		define_nb_lines_writed(t_clist *lst, t_data *data);
 /*
 *** |================================================|
 *** |				parse_keys.c					 |
@@ -96,7 +104,7 @@ int			check_keys_arrows(t_all *all, char *buff);
 int			read_keys(t_all *all);
 /*
 *** |================================================|
-*** |				select_tools.c					 |
+*** |				tools.c					 		 |
 *** |================================================|
 */
 void		set_index(t_clist *lst);
@@ -109,6 +117,7 @@ void		get_cursor_row(t_data *data);
 *** |				display.c						 |
 *** |================================================|
 */
+void		display_lst(t_clist *lst);
 void		display_arg(t_select *elem);
 void		horizontal_display(t_clist *lst, t_data *data);
 /*
@@ -124,15 +133,25 @@ void		refresh_screen(int nb_lines);
 *** |				moves.c						 	 |
 *** |================================================|
 */
-void		select_choice(t_clist *lst, t_data *data, t_clist *ret);
 void		try_down_moves(t_clist *lst, t_data *data);
 void		try_up_moves(t_clist *lst, t_data *data);
 void		try_horizontal_moves(t_clist *lst, t_data *data, int key);
 /*
 *** |================================================|
+*** |				moves_tools.c					 |
+*** |================================================|
+*/
+void		left_key(t_select **tmp, t_data *data);
+void		right_key(t_select **tmp, t_data *data);
+void		goto_first_elem(t_clist *lst, t_data *data);
+void		goto_last_elem(t_clist *lst, t_data *data);
+/*
+*** |================================================|
 *** |				init.c					 		 |
 *** |================================================|
 */
+void		init_loop(t_all *all);
+void		reset_loop(t_all *all);
 int			init_tty();
 void		init_windows_size(t_data *data);
 t_all		*init_all(char **env);
@@ -160,8 +179,29 @@ void		tputs_termcap(char *tc);
 t_clist		*create_clst(void);
 t_select	*clst_create_elem(char *s);
 t_clist		*clst_add_elem_back(t_clist *lst, t_select *node);
+/*
+*** |================================================|
+*** |				clist_tools.c					 |
+*** |================================================|
+*/
 int			update_list(t_clist *lst, t_select *elem);
 t_clist		*clst_del_one(t_clist *lst, char *arg2del);
 void		del_clist(t_clist **lst);
+/*
+*** |================================================|
+*** |				select.c				 	 	 |
+*** |================================================|
+*/
+void		select_choice_extend(t_clist *lst, t_data *data, t_select **tmp);
+void		select_choice(t_clist *lst, t_data *data);
+int			index_elem(t_clist *lst);
+/*
+*** |================================================|
+*** |				delete.c						 |
+*** |================================================|
+*/
+char		*elem_2_del(t_clist *lst, t_data *data);
+int			elem_exist(t_clist *lst, char *elem2find);
+void		delete_elem(t_all *all, char *elem2del);
 
 #endif

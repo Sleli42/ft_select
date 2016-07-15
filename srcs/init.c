@@ -12,6 +12,33 @@
 
 #include "ft_select.h"
 
+void		init_loop(t_all *all)
+{
+	tputs_termcap("cl");
+	define_nb_args_by_row(all->select, all->data);
+	define_nb_lines_writed(all->select, all->data);
+	horizontal_display(all->select, all->data);
+	get_cursor_row(all->data);
+	goto_first_line(all->data);
+	all->select->head->on_arg = 1;
+	tputs_termcap("vi");
+}
+
+void		reset_loop(t_all *all)
+{
+	tputs_termcap("ue");
+	tputs_termcap("me");
+	goto_first_line(all->data);
+	refresh_screen(all->data->nb_lines_writed);
+	create_ret_list(all);
+	display_lst(all->ret_list);
+	del_array(&all->dupenv);
+	del_clist(&all->select);
+	del_clist(&all->ret_list);
+	free(all->data);
+	reset_term();
+}
+
 void		init_windows_size(t_data *data)
 {
 	if (ioctl(init_tty(), TIOCGWINSZ, &data->ws) == -1)

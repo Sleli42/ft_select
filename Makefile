@@ -18,15 +18,20 @@ LDFLAGS = -I./includes/ -I./libft/include/
 
 SRC			= main.c \
 				loop.c \
+				loop_tools.c \
 				termcaps.c \
 				clist.c \
+				clist_tools.c \
 				init.c \
 				error.c \
 				parse_keys.c \
-				select_tools.c \
+				tools.c \
 				display.c \
 				display_tools.c \
-				moves.c
+				moves.c \
+				moves_tools.c \
+				select.c \
+				delete.c
 
 OBJ = $(SRC:.c=.o)
 

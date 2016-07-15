@@ -12,6 +12,20 @@
 
 #include "ft_select.h"
 
+void		display_lst(t_clist *lst)
+{
+	t_select	*tmp;
+
+	tmp = lst->head;
+	if (!tmp)
+		return ;
+	while (tmp)
+	{
+		ft_putendl(tmp->arg);
+		tmp = tmp->next;
+	}
+}
+
 void		display_arg(t_select *elem)
 {
 	if (elem->select_arg)
@@ -44,12 +58,10 @@ void		horizontal_display(t_clist *lst, t_data *data)
 			ft_putchar('\n');
 		}
 		display_arg(tmp);
-		// ft_putstr(tmp->arg);
 		if (ct < (int)lst->lenght - 1)
 			add_spaces((int)ft_strlen(tmp->arg), data->maxlen_arg + 2);
 		ct += 1;
 		stop += 1;
 		tmp = tmp->next;
 	}
-	// ft_putchar('\n');
 }
