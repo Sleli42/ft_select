@@ -17,12 +17,14 @@
 # include <unistd.h>
 # include <libft.h>
 # include <sys/types.h>
-# include <sys/wait.h>
 # include <sys/stat.h>
+# include <sys/wait.h>
 # include <term.h>
 # include <termios.h>
 # include <curses.h>
 # include <sys/ioctl.h>
+# include <signal.h>
+# include "colors.h"
 
 # define NOTATTY 		1
 # define MAX_READ		3
@@ -72,10 +74,15 @@ typedef	struct			s_all
 	t_data				*data;
 	t_clist				*select;
 	t_clist				*ret_list;
+	char				**env;
 	char				**dupenv;
+	struct termios		term;
 	int					key_arrow;
 }						t_all;
 
+char		**create_simple_env(void);
+void		sig_handler(int sig);
+void		sig_catch(void);
 t_all		*f_cpy(t_all *all);
 /*
 *** |================================================|
@@ -88,7 +95,7 @@ void		select_loop(t_all *all);
 *** |				loop_tools.c					 |
 *** |================================================|
 */
-void		create_ret_list(t_all *all);
+void		free_all(t_all *all);
 int			define_maxlen_args(t_clist *lst);
 int			nb_spaces_2_add(int currlen, int maxlen);
 void		define_nb_args_by_row(t_clist *lst, t_data *data);
@@ -167,8 +174,8 @@ void		term_error(char *err);
 *** |				termcaps.c					 	 |
 *** |================================================|
 */
-void		init_term(char **dupenv);
-void		reset_term();
+void		init_term(t_all *all, char **dupenv);
+void		reset_term(t_all *all);
 int			lu_putchar(int c);
 void		tputs_termcap(char *tc);
 /*
@@ -184,6 +191,7 @@ t_clist		*clst_add_elem_back(t_clist *lst, t_select *node);
 *** |				clist_tools.c					 |
 *** |================================================|
 */
+void		create_ret_list(t_all *all);
 int			update_list(t_clist *lst, t_select *elem);
 t_clist		*clst_del_one(t_clist *lst, char *arg2del);
 void		del_clist(t_clist **lst);
@@ -203,5 +211,13 @@ int			index_elem(t_clist *lst);
 char		*elem_2_del(t_clist *lst, t_data *data);
 int			elem_exist(t_clist *lst, char *elem2find);
 void		delete_elem(t_all *all, char *elem2del);
-
+/*
+*** |================================================|
+*** |				signals.c						 |
+*** |================================================|
+*/
+void		sig_cont(int sig);
+void		sig_tstp(int sig);
+void		sig_winch(int sig);
+void		sig_int(int sig);
 #endif

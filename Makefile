@@ -31,7 +31,8 @@ SRC			= main.c \
 				moves.c \
 				moves_tools.c \
 				select.c \
-				delete.c
+				delete.c \
+				signals.c
 
 OBJ = $(SRC:.c=.o)
 

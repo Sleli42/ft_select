@@ -12,20 +12,16 @@
 
 #include "ft_select.h"
 
-void		create_ret_list(t_all *all)
+void		free_all(t_all *all)
 {
-	t_select	*tmp;
-
-	tmp = all->select->head;
-	if (tmp)
-	{
-		while (tmp)
-		{
-			if (tmp->select_arg)
-				clst_add_elem_back(all->ret_list, clst_create_elem(tmp->arg));
-			tmp = tmp->next;
-		}
-	}
+	if (!all->env || !*all->env)
+		;
+	else
+		(all->dupenv && *all->dupenv) ? del_array(&all->dupenv) : NULL;
+	(all->select && all->select->head) ? del_clist(&all->select) : NULL;
+	(all->ret_list && all->ret_list->head) ? del_clist(&all->ret_list) : NULL;
+	(all->data) ? free(all->data) : NULL;
+	reset_term(all);
 }
 
 int			define_maxlen_args(t_clist *lst)

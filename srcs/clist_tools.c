@@ -12,6 +12,22 @@
 
 #include "ft_select.h"
 
+void		create_ret_list(t_all *all)
+{
+	t_select	*tmp;
+
+	tmp = all->select->head;
+	if (tmp)
+	{
+		while (tmp)
+		{
+			if (tmp->select_arg)
+				clst_add_elem_back(all->ret_list, clst_create_elem(tmp->arg));
+			tmp = tmp->next;
+		}
+	}
+}
+
 int			update_list(t_clist *lst, t_select *elem)
 {
 	if (!elem->next && elem->prev)

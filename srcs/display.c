@@ -21,13 +21,20 @@ void		display_lst(t_clist *lst)
 		return ;
 	while (tmp)
 	{
-		ft_putendl(tmp->arg);
+		ft_putstr(tmp->arg);
+		if (tmp != lst->tail)
+			ft_putchar(' ');
 		tmp = tmp->next;
 	}
+	ft_putchar('\n');
 }
 
 void		display_arg(t_select *elem)
 {
+	struct stat		data;
+
+	if (stat(elem->arg, &data) == -1)
+		return (ft_putendl("error stat"));
 	if (elem->select_arg)
 		tputs_termcap("mr");
 	else
@@ -36,7 +43,12 @@ void		display_arg(t_select *elem)
 		tputs_termcap("us");
 	else
 		tputs_termcap("ue");
+	if (data.st_mode & S_IXOTH)
+		ft_putstr(RED);
+	if (data.st_mode & S_IFDIR)
+		ft_putstr(BLUE);
 	ft_putstr(elem->arg);
+	ft_putstr(END);
 }
 
 void		horizontal_display(t_clist *lst, t_data *data)

@@ -48,6 +48,8 @@ char	**ft_dupenv(char **env)
 		dup[i] = NULL;
 		return (dup);
 	}
+	else if (!env || !env[i])
+		return (create_simple_env());
 	return (NULL);
 }
 
